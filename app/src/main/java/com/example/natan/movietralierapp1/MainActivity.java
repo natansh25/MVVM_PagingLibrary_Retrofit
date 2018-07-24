@@ -14,17 +14,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 
 import com.example.natan.movietralierapp1.Adapter.Movie;
 import com.example.natan.movietralierapp1.Adapter.RecyclerMovie;
 import com.example.natan.movietralierapp1.Network.NetworkUtils;
+import com.example.natan.movietralierapp1.model.Example;
+import com.example.natan.movietralierapp1.model.Result;
+import com.example.natan.movietralierapp1.service.ApiClient;
+import com.example.natan.movietralierapp1.service.ApiInterface;
 
 import java.net.URL;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
         mrecyclerView.setLayoutManager(mLayoutManager);
         mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         mrecyclerView.setNestedScrollingEnabled(false);
-        build("popular");
+        loadDefault("top_rated");
+        //build("popular");
 
         //onSavedInstance loading if exist
 
@@ -65,20 +74,61 @@ public class MainActivity extends AppCompatActivity {
             selected = savedInstanceState.getInt(MENU_SELECTED);
 
             if (selected == -1) {
-                build("popular");
+
+                loadDefault("popular");
+
             } else if (selected == R.id.highest_Rated) {
-                build("top_rated");
+
+                loadDefault("top_rated");
             } else {
-                build("popular");
+
+                loadDefault("popular");
             }
 
         }
+
+
+    }
+
+    private void loadDefault(String sort) {
+
+        ApiInterface apiService =
+                ApiClient.getClient().create(ApiInterface.class);
+
+        Call<Example> call = apiService.getMovies(sort, ApiClient.api_key);
+        call.enqueue(new Callback<Example>() {
+            @Override
+            public void onResponse(Call<Example> call, final Response<Example> response) {
+                int statusCode = response.code();
+                List<Result> results = response.body().getResults();
+                mRecyclerMovie = new RecyclerMovie(MainActivity.this, results, new RecyclerMovie.ListItemClickListener() {
+                    @Override
+                    public void onListItemClick(Result movie) {
+                        Toast.makeText(MainActivity.this, "click baby !!", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+
+                mrecyclerView.setAdapter(mRecyclerMovie);
+                mRecyclerMovie.notifyDataSetChanged();
+
+
+            }
+
+            @Override
+            public void onFailure(Call<Example> call, Throwable t) {
+
+            }
+        });
+
+
     }
 
 
     //Creating inner class for Async Task
 
-    public class MovieDbQUeryTask extends AsyncTask<URL, Void, List<Movie>> {
+    /*public class MovieDbQUeryTask extends AsyncTask<URL, Void, List<Movie>> {
 
 
         @Override
@@ -118,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
-
+*/
     //onsaveInstanceState
 
     @Override
@@ -143,13 +193,15 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.highest_Rated:
-                build("top_rated");
+                //build("top_rated");
+                loadDefault("top_rated");
                 selected = id;
 
                 break;
 
             case R.id.most_popular:
-                build("popular");
+                //build("popular");
+                loadDefault("popular");
                 selected = id;
                 break;
         }
@@ -157,9 +209,9 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private URL build(String sort) {
+    /*private URL build(String sort) {
         URL final_Url = NetworkUtils.buildURl(sort);
         new MovieDbQUeryTask().execute(final_Url);
         return final_Url;
-    }
+    }*/
 }
