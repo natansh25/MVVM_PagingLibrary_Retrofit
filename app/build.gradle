@@ -33,6 +33,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.4.0'
+    //Gson for json conversion-----------
+    compile 'com.google.code.gson:gson:2.8.2'
 
     //Arc Layout
     compile 'com.github.florent37:arclayout:1.0.3'
