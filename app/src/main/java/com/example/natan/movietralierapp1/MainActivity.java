@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         mrecyclerView.setLayoutManager(mLayoutManager);
         mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         mrecyclerView.setNestedScrollingEnabled(false);
-        loadDefault("top_rated");
+        loadDefault("popular");
         //build("popular");
 
         //onSavedInstance loading if exist
@@ -75,14 +75,14 @@ public class MainActivity extends AppCompatActivity {
 
             if (selected == -1) {
 
-                loadDefault("popular");
+                loadDefault("top_rated");
 
             } else if (selected == R.id.highest_Rated) {
 
-                loadDefault("top_rated");
+                loadDefault("popular");
             } else {
 
-                loadDefault("popular");
+                loadDefault("top_rated");
             }
 
         }
@@ -104,7 +104,11 @@ public class MainActivity extends AppCompatActivity {
                 mRecyclerMovie = new RecyclerMovie(MainActivity.this, results, new RecyclerMovie.ListItemClickListener() {
                     @Override
                     public void onListItemClick(Result movie) {
-                        Toast.makeText(MainActivity.this, "click baby !!", Toast.LENGTH_SHORT).show();
+                        
+                        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                        intent.putExtra("data", movie);
+                        startActivity(intent);
+
 
                     }
                 });
@@ -194,14 +198,14 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.highest_Rated:
                 //build("top_rated");
-                loadDefault("top_rated");
+                loadDefault("popular");
                 selected = id;
 
                 break;
 
             case R.id.most_popular:
                 //build("popular");
-                loadDefault("popular");
+                loadDefault("top_rated");
                 selected = id;
                 break;
         }

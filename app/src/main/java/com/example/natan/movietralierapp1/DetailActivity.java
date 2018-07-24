@@ -7,6 +7,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.natan.movietralierapp1.Adapter.Movie;
+import com.example.natan.movietralierapp1.model.Result;
 import com.example.natan.movietralierapp1.picasso.RoundedTransformation;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -17,8 +18,8 @@ import butterknife.ButterKnife;
 public class DetailActivity extends AppCompatActivity {
     @BindView(R.id.release)
     TextView txt_Release;
-/*    @BindView(R.id.rating)
-    TextView txt_Rating;*/
+    /*    @BindView(R.id.rating)
+        TextView txt_Rating;*/
     @BindView(R.id.title)
     TextView txt_Title;
     @BindView(R.id.image_poster)
@@ -38,20 +39,19 @@ public class DetailActivity extends AppCompatActivity {
         postponeEnterTransition();
 
 
-
         //getActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        Movie movie = getIntent().getParcelableExtra("data");
+        Result movie = getIntent().getParcelableExtra("data");
         String name = getIntent().getExtras().getString(MainActivity.EXTRA_ANIMAL_IMAGE_TRANSITION_NAME);
-        Float rating= Float.valueOf(movie.getVoteAverage());
-        Float cal=(5*rating)/10;
+        Float rating = Float.valueOf(movie.getVoteCount());
+        Float cal = (5 * rating) / 10;
 
         mRatingbar.setRating(cal);
 
         img_Poster.setTransitionName(name);
-        Picasso.get().load("https://image.tmdb.org/t/p/w500" + movie.getBackImage()).into(app_bar_img);
-        Picasso.get().load("https://image.tmdb.org/t/p/w500" + movie.getImage()).transform(new RoundedTransformation(20, 0)).into(img_Poster, new Callback() {
+        Picasso.get().load("https://image.tmdb.org/t/p/w500" + movie.getBackdropPath()).into(app_bar_img);
+        Picasso.get().load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath()).transform(new RoundedTransformation(20, 0)).into(img_Poster, new Callback() {
             @Override
             public void onSuccess() {
                 startPostponedEnterTransition();
