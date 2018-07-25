@@ -1,6 +1,8 @@
 package com.example.natan.movietralierapp1;
 
 import android.app.Activity;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 import com.example.natan.movietralierapp1.Adapter.Movie;
 import com.example.natan.movietralierapp1.Adapter.RecyclerMovie;
 import com.example.natan.movietralierapp1.Network.NetworkUtils;
+import com.example.natan.movietralierapp1.ViewModel.MainViewModel;
 import com.example.natan.movietralierapp1.model.Example;
 import com.example.natan.movietralierapp1.model.Result;
 import com.example.natan.movietralierapp1.service.ApiClient;
@@ -65,12 +68,13 @@ public class MainActivity extends AppCompatActivity {
         mrecyclerView.setLayoutManager(mLayoutManager);
         mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         mrecyclerView.setNestedScrollingEnabled(false);
-        loadDefault("popular");
+        setUpViewModel();
+        //loadDefault("popular");
         //build("popular");
 
         //onSavedInstance loading if exist
 
-        if (savedInstanceState != null) {
+       /* if (savedInstanceState != null) {
             selected = savedInstanceState.getInt(MENU_SELECTED);
 
             if (selected == -1) {
@@ -85,6 +89,42 @@ public class MainActivity extends AppCompatActivity {
                 loadDefault("top_rated");
             }
 
+        }*/
+
+
+    }
+
+    private void setUpViewModel() {
+
+
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        setupRecyclerView(viewModel.getAllMovies());
+
+
+    }
+
+    private void setupRecyclerView(List<Result> results) {
+
+        if (results != null) {
+
+            mRecyclerMovie = new RecyclerMovie(MainActivity.this, results, new RecyclerMovie.ListItemClickListener() {
+                @Override
+                public void onListItemClick(Result movie) {
+
+                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+                    intent.putExtra("data", movie);
+                    startActivity(intent);
+
+
+                }
+            });
+
+
+            mrecyclerView.setAdapter(mRecyclerMovie);
+            mRecyclerMovie.notifyDataSetChanged();
+        } else {
+            Toast.makeText(this, "List Null", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -104,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 mRecyclerMovie = new RecyclerMovie(MainActivity.this, results, new RecyclerMovie.ListItemClickListener() {
                     @Override
                     public void onListItemClick(Result movie) {
-                        
+
                         Intent intent = new Intent(MainActivity.this, DetailActivity.class);
                         intent.putExtra("data", movie);
                         startActivity(intent);
