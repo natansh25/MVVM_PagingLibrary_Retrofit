@@ -1,11 +1,13 @@
 package com.example.natan.movietralierapp1;
 
 import android.app.Activity;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -16,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -23,6 +26,7 @@ import com.example.natan.movietralierapp1.Adapter.Movie;
 import com.example.natan.movietralierapp1.Adapter.RecyclerMovie;
 import com.example.natan.movietralierapp1.Network.NetworkUtils;
 import com.example.natan.movietralierapp1.ViewModel.MainViewModel;
+import com.example.natan.movietralierapp1.database.RemoteNetworkCall;
 import com.example.natan.movietralierapp1.model.Example;
 import com.example.natan.movietralierapp1.model.Result;
 import com.example.natan.movietralierapp1.service.ApiClient;
@@ -68,7 +72,17 @@ public class MainActivity extends AppCompatActivity {
         mrecyclerView.setLayoutManager(mLayoutManager);
         mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         mrecyclerView.setNestedScrollingEnabled(false);
-        setUpViewModel();
+        RemoteNetworkCall.fetchData();
+
+
+        RemoteNetworkCall.getIntData().observe(this, new Observer<List<Result>>() {
+            @Override
+            public void onChanged(@Nullable List<Result> results) {
+                setupRecyclerView(results);
+            }
+        });
+
+
         //loadDefault("popular");
         //build("popular");
 
@@ -94,15 +108,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setUpViewModel() {
+   /* private void setUpViewModel() {
 
 
         MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        Object obj=viewModel.getAllMovies();
 
-        setupRecyclerView(viewModel.getAllMovies());
+
+        //setupRecyclerView(viewModel.getAllMovies());
 
 
-    }
+    }*/
 
     private void setupRecyclerView(List<Result> results) {
 
