@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
         mrecyclerView.setLayoutManager(mLayoutManager);
         mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         mrecyclerView.setNestedScrollingEnabled(false);
-        RemoteNetworkCall.fetchData();
+        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
 
         RemoteNetworkCall.getIntData().observe(this, new Observer<List<Result>>() {
