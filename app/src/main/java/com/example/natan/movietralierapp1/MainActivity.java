@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_ANIMAL_IMAGE_TRANSITION_NAME = "animal_image_transition_name";
 
     private RecyclerMovie mRecyclerMovie;
+    MainViewModel viewModel;
 
     // onSaveinstance varibale
 
@@ -72,15 +73,23 @@ public class MainActivity extends AppCompatActivity {
         mrecyclerView.setLayoutManager(mLayoutManager);
         mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         mrecyclerView.setNestedScrollingEnabled(false);
-        MainViewModel viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
 
-        RemoteNetworkCall.getIntData().observe(this, new Observer<List<Result>>() {
+        viewModel.mLiveData().observe(this, new Observer<List<Result>>() {
             @Override
             public void onChanged(@Nullable List<Result> results) {
                 setupRecyclerView(results);
             }
         });
+
+
+       /* RemoteNetworkCall.getIntData().observe(this, new Observer<List<Result>>() {
+            @Override
+            public void onChanged(@Nullable List<Result> results) {
+                setupRecyclerView(results);
+            }
+        });*/
 
 
         //loadDefault("popular");
@@ -254,14 +263,16 @@ public class MainActivity extends AppCompatActivity {
         switch (id) {
             case R.id.highest_Rated:
                 //build("top_rated");
-                loadDefault("popular");
+                // loadDefault("popular");
+                viewModel.getPopular();
                 selected = id;
 
                 break;
 
             case R.id.most_popular:
                 //build("popular");
-                loadDefault("top_rated");
+                //loadDefault("top_rated");
+                viewModel.getTopRated();
                 selected = id;
                 break;
         }

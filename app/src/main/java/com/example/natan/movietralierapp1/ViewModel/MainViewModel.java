@@ -28,11 +28,24 @@ public class MainViewModel extends AndroidViewModel {
         super(application);
 
 
-        RemoteNetworkCall.fetchData();
+        RemoteNetworkCall.fetchData("popular");
         //mResults = RemoteNetworkCall.fetchData("popular");
         /*mResults = RemoteNetworkCall.fetchData("popular");*/
 
     }
 
+    public LiveData<List<Result>> mLiveData() {
+        mData = RemoteNetworkCall.getIntData();
+        return mData;
+    }
+
+
+    public void getTopRated() {
+        RemoteNetworkCall.fetchData("top_rated");
+    }
+
+    public void getPopular() {
+        RemoteNetworkCall.fetchData("popular");
+    }
 
 }

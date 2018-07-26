@@ -24,13 +24,13 @@ public class RemoteNetworkCall {
     private static MutableLiveData<List<Result>> data = new MutableLiveData<>();
 
 
-    public static void fetchData() {
+    public static void fetchData(String sort) {
 
 
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
 
-        Call<Example> call = apiService.getMovies("popular", ApiClient.api_key);
+        Call<Example> call = apiService.getMovies(sort, ApiClient.api_key);
         call.enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, final Response<Example> response) {
