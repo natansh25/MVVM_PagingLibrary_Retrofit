@@ -39,6 +39,7 @@ public class RemoteNetworkCall {
 
 
                 data.postValue(results);
+
                 //Log.d("RemoteIN", String.valueOf(data));
 
 

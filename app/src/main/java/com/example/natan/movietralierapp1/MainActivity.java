@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.highest_Rated:
                 //build("top_rated");
                 // loadDefault("popular");
-                viewModel.getPopular();
+                viewModel.getTopRated();
                 selected = id;
 
                 break;
@@ -272,7 +272,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.most_popular:
                 //build("popular");
                 //loadDefault("top_rated");
-                viewModel.getTopRated();
+                viewModel.getPopular();
                 selected = id;
                 break;
         }

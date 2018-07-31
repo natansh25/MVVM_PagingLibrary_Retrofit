@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 
+import com.example.natan.movietralierapp1.Respository;
 import com.example.natan.movietralierapp1.database.RemoteNetworkCall;
 import com.example.natan.movietralierapp1.model.Example;
 import com.example.natan.movietralierapp1.model.Result;
@@ -22,30 +23,31 @@ import retrofit2.Response;
 public class MainViewModel extends AndroidViewModel {
 
     private LiveData<List<Result>> mData;
+    private Respository mRespository;
+
+
 
 
     public MainViewModel(@NonNull Application application) {
         super(application);
 
 
-        RemoteNetworkCall.fetchData("popular");
-        //mResults = RemoteNetworkCall.fetchData("popular");
-        /*mResults = RemoteNetworkCall.fetchData("popular");*/
+        mRespository = new Respository(application);
 
     }
 
     public LiveData<List<Result>> mLiveData() {
-        mData = RemoteNetworkCall.getIntData();
+        mData = mRespository.mLiveData();
         return mData;
     }
 
 
     public void getTopRated() {
-        RemoteNetworkCall.fetchData("top_rated");
+        mRespository.getTopRated();
     }
 
     public void getPopular() {
-        RemoteNetworkCall.fetchData("popular");
+        mRespository.getPopular();
     }
 
 }
