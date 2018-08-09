@@ -8,8 +8,7 @@ public class ApiClient {
 
 
     final static String MOVIE_DB_URL = "http://api.themoviedb.org/3/";
-    final static String API_KEY = "api_key";
-    public static String api_key = "053130b8fdf68ca19c58155b4bd37bdd";
+    public static String api_key = "paste you api key here";
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {
