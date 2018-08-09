@@ -15,10 +15,12 @@ With the app, you can:
 This app uses [The Movie Database](https://www.themoviedb.org/documentation/api) API to retrieve movies.
 You must provide your own API key in order to build the app. Generate you API_KEY and replace it in ApiClient.java class
 
-# Screenshots
+## Screenshots
 
-![main](https://user-images.githubusercontent.com/5525105/33155412-9277c770-cfbe-11e7-9ae0-3035724b7864.png)
+![](screenshots/pop1s1.png)
+![](screenshots/pop1s2.png)
+![](screenshots/pop1s3.png)
 
 
-![detailactivity](https://user-images.githubusercontent.com/5525105/33155416-973b97dc-cfbe-11e7-904e-ee7d61ccf709.png)
+
 
