@@ -1,7 +1,8 @@
 # Popular Movies
-
-Here is a fully functional and colorful android app which I made from scratch for Android Developer Nanodegree program.
-This app reveals the power of adaptive UI both for phone and tablet devices.
+This app is built with MVVM Design Pattern
+- [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
+- [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+- [Repository](https://developer.android.com/jetpack/docs/guide)
 
 ## Features
 
@@ -23,6 +24,8 @@ You must provide your own API key in order to build the app. Generate you API_KE
 
 * [Picasso](http://square.github.io/picasso/)
 * [Retrofit](http://square.github.io/retrofit/)
+* [ButterKnif](http://jakewharton.github.io/butterknife/)
+
 
 
 ## License:
