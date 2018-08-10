@@ -17,9 +17,8 @@ You must provide your own API key in order to build the app. Generate you API_KE
 
 ## Screenshots
 
-![](screenshots/pop1s1.png)
-![](screenshots/pop1s2.png)
-![](screenshots/pop1s3.png)
+![](screenshots/pop1.png)
+
 
 
 
