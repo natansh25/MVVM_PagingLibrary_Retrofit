@@ -48,4 +48,8 @@ dependencies {
 
     //Arc Layout
     compile 'com.github.florent37:arclayout:1.0.3'
+
+    // paging
+
+    implementation 'android.arch.paging:runtime:1.0.1'
 }

@@ -17,4 +17,8 @@ public interface ApiInterface {
     Call<Example> getPopularMovies(@Query("api_key") String apiKey);
 
 
+    @GET("movie/{filter}")
+    Call<Example> fetchMoviesPaging(@Path("filter") String filter, @Query("api_key") String apiKey, @Query("page") long page, @Query("pageSize") int pageSize);
+
+
 }
