@@ -12,6 +12,8 @@ import java.util.List;
 public class Example implements Parcelable {
 
     @SerializedName("page")
+
+
     @Expose
     private Integer page;
     @SerializedName("total_results")

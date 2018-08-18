@@ -21,6 +21,7 @@ public class MovieDataSource extends PageKeyedDataSource<Long, Result> {
 
     private static final String TAG = MovieDataSource.class.getSimpleName();
 
+
     private MutableLiveData networkState;
     private MutableLiveData initialLoading;
     private Executor retryExecutor;
