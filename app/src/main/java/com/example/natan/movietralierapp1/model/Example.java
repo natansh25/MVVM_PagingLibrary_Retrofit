@@ -16,7 +16,7 @@ public class Example implements Parcelable {
     private Integer page;
     @SerializedName("total_results")
     @Expose
-    private Integer totalResults;
+    private long totalResults;
     @SerializedName("total_pages")
     @Expose
     private Integer totalPages;
@@ -32,7 +32,7 @@ public class Example implements Parcelable {
         this.page = page;
     }
 
-    public Integer getTotalResults() {
+    public long getTotalResults() {
         return totalResults;
     }
 
