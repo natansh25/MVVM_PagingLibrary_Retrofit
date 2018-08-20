@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.example.natan.movietralierapp1.Adapter.Movie;
 import com.example.natan.movietralierapp1.Adapter.RecyclerMovie;
 import com.example.natan.movietralierapp1.Adapter.RecyclerMovieP;
+import com.example.natan.movietralierapp1.Network.NetworkState;
 import com.example.natan.movietralierapp1.Network.NetworkUtils;
 import com.example.natan.movietralierapp1.ViewModel.MainViewModel;
 import com.example.natan.movietralierapp1.database.RemoteNetworkCall;
@@ -92,8 +93,16 @@ public class MainActivity extends AppCompatActivity implements RecyclerMovieP.Li
             @Override
             public void onChanged(@Nullable PagedList<Result> results) {
 
+
                 Log.d("pagelist", String.valueOf(results));
                 mRecyclerMovie.submitList(results);
+            }
+        });
+
+        viewModel.networkState.observe(this, new Observer<NetworkState>() {
+            @Override
+            public void onChanged(@Nullable NetworkState networkState) {
+                mRecyclerMovie.setNetworkState(networkState);
             }
         });
 

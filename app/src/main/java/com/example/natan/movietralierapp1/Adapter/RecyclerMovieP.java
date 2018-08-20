@@ -1,6 +1,7 @@
 package com.example.natan.movietralierapp1.Adapter;
 
 import android.arch.paging.PagedListAdapter;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,24 +12,24 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.natan.movietralierapp1.MainActivity;
+
 import com.example.natan.movietralierapp1.Network.NetworkState;
 import com.example.natan.movietralierapp1.R;
 import com.example.natan.movietralierapp1.model.Result;
 import com.example.natan.movietralierapp1.picasso.RoundedTransformation;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyViewHolder> {
+public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerView.ViewHolder> {
 
 
     private NetworkState networkState;
     //Implementing on click listner
     private ListItemClickListener mOnClickListener;
+
 
     //Interface
 
@@ -46,7 +47,7 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
 
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         /*View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.custom_list, parent, false);
 
@@ -56,18 +57,17 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
 
         if (viewType == R.layout.custom_list) {
             view = layoutInflater.inflate(R.layout.custom_list, parent, false);
-            return new MyViewHolder(view);
+            return new ViewHolder(view);
         } else if (viewType == R.layout.network_state_item) {
-         /*   view = layoutInflater.inflate(R.layout.network_state_item, parent, false);
-            return new NetworkStateItemViewHolder(view, itemClickListener);*/
-            return null;
+            view = layoutInflater.inflate(R.layout.network_state_item, parent, false);
+            return new NetworkStateItemViewHolder(view);
         } else {
             throw new IllegalArgumentException("unknown view type");
         }
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Log.d("xxxuuu", String.valueOf(position));
 
      /*   Result movie = mMovieList.get(position);
@@ -79,12 +79,12 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
 
             case R.layout.custom_list:
                 Result movie = getItem(position);
-                Picasso.get().load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath()).transform(new RoundedTransformation(14, 0)).into(holder.img_movie);
+                ((ViewHolder) holder).bindTo(movie);
 
                 //((MyViewHolder) holder).bindTo(getItem(position));
                 break;
             case R.layout.network_state_item:
-                /*((NetworkStateItemViewHolder) holder).bindView(networkState);*/
+                ((NetworkStateItemViewHolder) holder).bindView(networkState);
                 break;
         }
 
@@ -132,16 +132,24 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
         return mMovieList.size();
     }*/
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.imageView)
         ImageView img_movie;
 
 
-        public MyViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
+
+        }
+
+        public void bindTo(Result result) {
+            Picasso.get()
+                    .load("https://image.tmdb.org/t/p/w500" + result.getPosterPath())
+                    .transform(new RoundedTransformation(14, 0)).
+                    into(img_movie);
 
         }
 
@@ -165,18 +173,12 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
         private Button button;
 
 
-        public NetworkStateItemViewHolder(View itemView, ListItemClickListener listItemClickListener) {
+        public NetworkStateItemViewHolder(View itemView) {
             super(itemView);
             progressBar = itemView.findViewById(R.id.progress_bar);
             errorMsg = itemView.findViewById(R.id.error_msg);
             button = itemView.findViewById(R.id.retry_button);
 
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    /*listItemClickListener.onRetryClick(view, getAdapterPosition());*/
-                }
-            });
         }
 
 
