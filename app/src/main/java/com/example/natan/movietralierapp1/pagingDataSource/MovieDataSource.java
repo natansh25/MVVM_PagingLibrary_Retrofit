@@ -58,7 +58,7 @@ public class MovieDataSource extends PageKeyedDataSource<Long, Result> {
                         if (response.isSuccessful()) {
                             String uri = call.request().url().toString();
                             List<Result> results = response.body().getResults();
-                            Log.d("urlxxxInitial", String.valueOf(response.body().getResults()));
+                            Log.d("urlxxxInitial", uri);
                             callback.onResult(results, null, 2l);
                             initialLoading.postValue(NetworkState.LOADED);
                             networkState.postValue(NetworkState.LOADED);
@@ -95,7 +95,7 @@ public class MovieDataSource extends PageKeyedDataSource<Long, Result> {
         networkState.postValue(NetworkState.LOADING);
 
 
-        mApiInterface.fetchMoviesPaging(ApiClient.api_key, "popular", params.key, params.requestedLoadSize)
+        mApiInterface.fetchMoviesPaging("popular", ApiClient.api_key, params.key, params.requestedLoadSize)
                 .enqueue(new Callback<Example>() {
                     @Override
                     public void onResponse(Call<Example> call, Response<Example> response) {
