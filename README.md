@@ -2,6 +2,7 @@
 This app is built with MVVM Design Pattern
 - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata)
 - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
+- [PagingLibrary](https://developer.android.com/topic/libraries/architecture/paging/#java)
 - [Repository](https://developer.android.com/jetpack/docs/guide)
 
 ## Features
