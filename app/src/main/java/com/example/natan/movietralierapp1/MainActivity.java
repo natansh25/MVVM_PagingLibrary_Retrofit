@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -73,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerMovieP.Li
 
 
         mrecyclerView.setLayoutManager(mLayoutManager);
-        mrecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mrecyclerView.setNestedScrollingEnabled(false);
+        //mrecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //mrecyclerView.setNestedScrollingEnabled(false);
         mRecyclerMovie = new RecyclerMovieP(this);
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
@@ -91,9 +92,12 @@ public class MainActivity extends AppCompatActivity implements RecyclerMovieP.Li
             @Override
             public void onChanged(@Nullable PagedList<Result> results) {
 
+                Log.d("pagelist", String.valueOf(results));
                 mRecyclerMovie.submitList(results);
             }
         });
+
+        mrecyclerView.setAdapter(mRecyclerMovie);
 
 
        /* RemoteNetworkCall.getIntData().observe(this, new Observer<List<Result>>() {

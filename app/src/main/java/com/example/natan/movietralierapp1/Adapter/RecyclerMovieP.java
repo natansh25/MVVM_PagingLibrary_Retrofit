@@ -2,6 +2,7 @@ package com.example.natan.movietralierapp1.Adapter;
 
 import android.arch.paging.PagedListAdapter;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +26,9 @@ import butterknife.ButterKnife;
 public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyViewHolder> {
 
 
-    private List<Result> mMovieList;
     private NetworkState networkState;
     //Implementing on click listner
-     private ListItemClickListener mOnClickListener;
+    private ListItemClickListener mOnClickListener;
 
     //Interface
 
@@ -37,7 +37,7 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
     }
 
 
-    public RecyclerMovieP( ListItemClickListener listener) {
+    public RecyclerMovieP(ListItemClickListener listener) {
         super(Result.DIFF_CALLBACK);
 
 
@@ -68,6 +68,7 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        Log.d("xxxuuu", String.valueOf(position));
 
      /*   Result movie = mMovieList.get(position);
 
@@ -77,7 +78,7 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
         switch (getItemViewType(position)) {
 
             case R.layout.custom_list:
-                Result movie = mMovieList.get(position);
+                Result movie = getItem(position);
                 Picasso.get().load("https://image.tmdb.org/t/p/w500" + movie.getPosterPath()).transform(new RoundedTransformation(14, 0)).into(holder.img_movie);
 
                 //((MyViewHolder) holder).bindTo(getItem(position));
@@ -125,10 +126,11 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
         }
     }
 
-    @Override
+    /*@Override
     public int getItemCount() {
+        Log.d("sizePage", String.valueOf(mMovieList.size()));
         return mMovieList.size();
-    }
+    }*/
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -148,13 +150,12 @@ public class RecyclerMovieP extends PagedListAdapter<Result, RecyclerMovieP.MyVi
         public void onClick(View v) {
 
             int adapterPosition = getAdapterPosition();
-            Result result = mMovieList.get(adapterPosition);
+            Result result = getItem(adapterPosition);
             mOnClickListener.onListItemClick(result);
 
 
         }
     }
-
 
 
     static class NetworkStateItemViewHolder extends RecyclerView.ViewHolder {

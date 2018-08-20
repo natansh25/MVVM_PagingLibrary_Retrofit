@@ -11,6 +11,7 @@ import com.example.natan.movietralierapp1.model.Result;
 import com.example.natan.movietralierapp1.service.ApiClient;
 import com.example.natan.movietralierapp1.service.ApiInterface;
 
+import java.util.List;
 import java.util.concurrent.Executor;
 
 import retrofit2.Call;
@@ -56,8 +57,9 @@ public class MovieDataSource extends PageKeyedDataSource<Long, Result> {
                     public void onResponse(Call<Example> call, Response<Example> response) {
                         if (response.isSuccessful()) {
                             String uri = call.request().url().toString();
-                            Log.d("urlxxxInitial", uri);
-                            callback.onResult(response.body().getResults(), null, 2l);
+                            List<Result> results = response.body().getResults();
+                            Log.d("urlxxxInitial", String.valueOf(response.body().getResults()));
+                            callback.onResult(results, null, 2l);
                             initialLoading.postValue(NetworkState.LOADED);
                             networkState.postValue(NetworkState.LOADED);
                         } else {
@@ -100,6 +102,7 @@ public class MovieDataSource extends PageKeyedDataSource<Long, Result> {
                         if (response.isSuccessful()) {
                             long nextKey = (params.key == response.body().getTotalResults()) ? null : params.key + 1;
                             String uri = call.request().url().toString();
+
                             Log.d("urlxxxAfter", uri);
                             callback.onResult(response.body().getResults(), nextKey);
                             networkState.postValue(NetworkState.LOADED);

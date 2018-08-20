@@ -60,6 +60,8 @@ public class MainViewModel extends ViewModel {
         userList = (new LivePagedListBuilder(movieDataFactory, pagedListConfig))
                 .build();
 
+        Log.d("pageData", String.valueOf(userList));
+
 
 
         //mRespository = new Respository(application);
