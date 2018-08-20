@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.paging.PagedList;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.natan.movietralierapp1.Adapter.Movie;
 import com.example.natan.movietralierapp1.Adapter.RecyclerMovie;
+import com.example.natan.movietralierapp1.Adapter.RecyclerMovieP;
 import com.example.natan.movietralierapp1.Network.NetworkUtils;
 import com.example.natan.movietralierapp1.ViewModel.MainViewModel;
 import com.example.natan.movietralierapp1.database.RemoteNetworkCall;
@@ -41,7 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerMovieP.ListItemClickListener {
 
 
     @BindView(R.id.recyclerView)
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_ANIMAL_IMAGE_TRANSITION_NAME = "animal_image_transition_name";
 
-    private RecyclerMovie mRecyclerMovie;
+    private RecyclerMovieP mRecyclerMovie;
     MainViewModel viewModel;
 
     // onSaveinstance varibale
@@ -73,13 +75,23 @@ public class MainActivity extends AppCompatActivity {
         mrecyclerView.setLayoutManager(mLayoutManager);
         mrecyclerView.setItemAnimator(new DefaultItemAnimator());
         mrecyclerView.setNestedScrollingEnabled(false);
+        mRecyclerMovie = new RecyclerMovieP(this);
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
 
-        viewModel.mLiveData().observe(this, new Observer<List<Result>>() {
+
+        /*viewModel.mLiveData().observe(this, new Observer<List<Result>>() {
             @Override
             public void onChanged(@Nullable List<Result> results) {
                 setupRecyclerView(results);
+            }
+        });*/
+
+        viewModel.userList.observe(this, new Observer<PagedList<Result>>() {
+            @Override
+            public void onChanged(@Nullable PagedList<Result> results) {
+
+                mRecyclerMovie.submitList(results);
             }
         });
 
@@ -129,7 +141,9 @@ public class MainActivity extends AppCompatActivity {
 
     }*/
 
-    private void setupRecyclerView(List<Result> results) {
+
+
+    /*private void setupRecyclerView(List<Result> results) {
 
         if (results != null) {
 
@@ -146,98 +160,16 @@ public class MainActivity extends AppCompatActivity {
             });
 
 
-            mrecyclerView.setAdapter(mRecyclerMovie);
-            mRecyclerMovie.notifyDataSetChanged();
+            *//*mrecyclerView.setAdapter(mRecyclerMovie);
+            mRecyclerMovie.notifyDataSetChanged();*//*
         } else {
             Toast.makeText(this, "List Null", Toast.LENGTH_SHORT).show();
         }
 
 
-    }
-
-    private void loadDefault(String sort) {
-
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
-
-        Call<Example> call = apiService.getMovies(sort, ApiClient.api_key);
-        call.enqueue(new Callback<Example>() {
-            @Override
-            public void onResponse(Call<Example> call, final Response<Example> response) {
-                int statusCode = response.code();
-                List<Result> results = response.body().getResults();
-                mRecyclerMovie = new RecyclerMovie(MainActivity.this, results, new RecyclerMovie.ListItemClickListener() {
-                    @Override
-                    public void onListItemClick(Result movie) {
-
-                        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                        intent.putExtra("data", movie);
-                        startActivity(intent);
+    }*/
 
 
-                    }
-                });
-
-
-                mrecyclerView.setAdapter(mRecyclerMovie);
-                mRecyclerMovie.notifyDataSetChanged();
-
-
-            }
-
-            @Override
-            public void onFailure(Call<Example> call, Throwable t) {
-
-            }
-        });
-
-
-    }
-
-
-    //Creating inner class for Async Task
-
-    /*public class MovieDbQUeryTask extends AsyncTask<URL, Void, List<Movie>> {
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            mProgressBar.setVisibility(View.VISIBLE);
-        }
-
-
-        @Override
-        protected List<Movie> doInBackground(URL... urls) {
-
-            List<Movie> result = NetworkUtils.fetchMovieData(urls[0]);
-            return result;
-        }
-
-
-        @Override
-        protected void onPostExecute(List<Movie> movies) {
-
-
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mRecyclerMovie = new RecyclerMovie(MainActivity.this, movies, new RecyclerMovie.ListItemClickListener() {
-                @Override
-                public void onListItemClick(Movie movie, ImageView imageView) {
-                    Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-                    intent.putExtra("data", movie);
-                    intent.putExtra(EXTRA_ANIMAL_IMAGE_TRANSITION_NAME, ViewCompat.getTransitionName(imageView));
-
-                    startActivity(intent);
-
-                }
-            });
-
-            mrecyclerView.setAdapter(mRecyclerMovie);
-            mRecyclerMovie.notifyDataSetChanged();
-
-        }
-    }
-*/
     //onsaveInstanceState
 
     @Override
@@ -264,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.highest_Rated:
                 //build("top_rated");
                 // loadDefault("popular");
-                viewModel.getTopRated();
+                //  viewModel.getTopRated();
                 selected = id;
 
                 break;
@@ -272,12 +204,18 @@ public class MainActivity extends AppCompatActivity {
             case R.id.most_popular:
                 //build("popular");
                 //loadDefault("top_rated");
-                viewModel.getPopular();
+                // viewModel.getPopular();
                 selected = id;
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onListItemClick(Result movie) {
+
+        Toast.makeText(this, "hello !!", Toast.LENGTH_SHORT).show();
     }
 
     /*private URL build(String sort) {

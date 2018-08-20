@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Respository {
 
-    private LiveData<List<Result>> mData;
+   /* private LiveData<List<Result>> mData;
 
 
     public Respository(Application application) {
@@ -34,7 +34,7 @@ public class Respository {
 
     public void getPopular() {
         RemoteNetworkCall.fetchData("popular");
-    }
+    }*/
 
 
 }

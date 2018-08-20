@@ -21,7 +21,7 @@ import retrofit2.Response;
 
 public class RemoteNetworkCall {
 
-    private static MutableLiveData<List<Result>> data = new MutableLiveData<>();
+ /*   private static MutableLiveData<List<Result>> data = new MutableLiveData<>();
 
 
     public static void fetchData(String sort) {
@@ -60,6 +60,6 @@ public class RemoteNetworkCall {
     public static LiveData<List<Result>> getIntData() {
         return data;
     }
-
+*/
 
 }
