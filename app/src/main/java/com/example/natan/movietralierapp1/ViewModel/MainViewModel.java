@@ -29,43 +29,38 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends AndroidViewModel {
 
     private LiveData<List<Result>> mData;
     private Respository mRespository;
-
+    public LiveData<NetworkState> networkState;
 
     public LiveData<PagedList<Result>> userList;
-    public LiveData<NetworkState> networkState;
-    Executor executor;
-    LiveData<MovieDataSource> tDataSource;
 
 
 
-    public MainViewModel() {
 
-        executor = Executors.newFixedThreadPool(5);
-        MovieDataFactory movieDataFactory=new MovieDataFactory(executor);
-        tDataSource=movieDataFactory.getMutableLiveData();
-
-        networkState = Transformations.switchMap(movieDataFactory.getMutableLiveData(), dataSource -> {
-            return dataSource.getNetworkState();
-        });
-
-        PagedList.Config pagedListConfig =
-                (new PagedList.Config.Builder()).setEnablePlaceholders(false)
-                        .setInitialLoadSizeHint(10)
-                        .setPageSize(20).build();
-
-        userList = (new LivePagedListBuilder(movieDataFactory, pagedListConfig))
-                .build();
-
-        Log.d("pageData", String.valueOf(userList));
+    public MainViewModel(Application application) {
+        super(application);
 
 
 
-        //mRespository = new Respository(application);
 
+
+        mRespository = new Respository(application);
+        userList=mRespository.getData();
+        networkState=mRespository.getNetworkState();
+
+    }
+
+
+    public LiveData<PagedList<Result>> getData()
+    {
+        return userList;
+    }
+
+    public LiveData<NetworkState> getNetworkState() {
+        return networkState;
     }
 
   /*  public LiveData<List<Result>> mLiveData() {

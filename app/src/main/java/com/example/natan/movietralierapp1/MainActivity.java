@@ -75,8 +75,8 @@ public class MainActivity extends AppCompatActivity implements RecyclerMovieP.Li
 
 
         mrecyclerView.setLayoutManager(mLayoutManager);
-        //mrecyclerView.setItemAnimator(new DefaultItemAnimator());
-        //mrecyclerView.setNestedScrollingEnabled(false);
+        mrecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mrecyclerView.setNestedScrollingEnabled(false);
         mRecyclerMovie = new RecyclerMovieP(this);
         viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerMovieP.Li
             }
         });*/
 
-        viewModel.userList.observe(this, new Observer<PagedList<Result>>() {
+        viewModel.getData().observe(this, new Observer<PagedList<Result>>() {
             @Override
             public void onChanged(@Nullable PagedList<Result> results) {
 
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerMovieP.Li
             }
         });
 
-        viewModel.networkState.observe(this, new Observer<NetworkState>() {
+        viewModel.getNetworkState().observe(this, new Observer<NetworkState>() {
             @Override
             public void onChanged(@Nullable NetworkState networkState) {
                 mRecyclerMovie.setNetworkState(networkState);
@@ -228,7 +228,10 @@ public class MainActivity extends AppCompatActivity implements RecyclerMovieP.Li
     @Override
     public void onListItemClick(Result movie) {
 
-        Toast.makeText(this, "hello !!", Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+        intent.putExtra("data", movie);
+        startActivity(intent);
     }
 
     /*private URL build(String sort) {
