@@ -50,7 +50,7 @@ public class MovieDataSource extends PageKeyedDataSource<Long, Result> {
         initialLoading.postValue(NetworkState.LOADING);
         networkState.postValue(NetworkState.LOADING);
 
-        mApiInterface.fetchMoviesPaging(ApiClient.api_key, "popular", 1, params.requestedLoadSize)
+        mApiInterface.fetchMoviesPaging("popular", ApiClient.api_key, 1, params.requestedLoadSize)
                 .enqueue(new Callback<Example>() {
                     @Override
                     public void onResponse(Call<Example> call, Response<Example> response) {
@@ -69,6 +69,7 @@ public class MovieDataSource extends PageKeyedDataSource<Long, Result> {
 
                     @Override
                     public void onFailure(Call<Example> call, Throwable t) {
+                        Log.d("urlxxxInitial", "faliure");
 
                         String errorMessage = t == null ? "unknown error" : t.getMessage();
                         networkState.postValue(new NetworkState(NetworkState.Status.FAILED, errorMessage));

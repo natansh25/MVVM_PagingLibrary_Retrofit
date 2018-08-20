@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerMovieP.Li
     public static final String EXTRA_ANIMAL_IMAGE_TRANSITION_NAME = "animal_image_transition_name";
 
     private RecyclerMovieP mRecyclerMovie;
-    MainViewModel viewModel;
+    private MainViewModel viewModel;
 
     // onSaveinstance varibale
 

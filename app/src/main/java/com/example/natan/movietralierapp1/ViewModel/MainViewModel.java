@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainViewModel extends AndroidViewModel {
+public class MainViewModel extends ViewModel {
 
     private LiveData<List<Result>> mData;
     private Respository mRespository;
@@ -42,8 +42,8 @@ public class MainViewModel extends AndroidViewModel {
 
 
 
-    public MainViewModel(@NonNull Application application) {
-        super(application);
+    public MainViewModel() {
+
         executor = Executors.newFixedThreadPool(5);
         MovieDataFactory movieDataFactory=new MovieDataFactory(executor);
         tDataSource=movieDataFactory.getMutableLiveData();
